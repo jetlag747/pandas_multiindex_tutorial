@@ -1,0 +1,34 @@
+{
+  "name": "Python + uv (Debian Slim, pinned Python)",
+
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  // Default workspace folder inside the container
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  // Use the unprivileged user we create in the Dockerfile
+  "remoteUser": "vscode",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Always point VS Code to the uv-created venv
+        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+
+  // After the container is created:
+  // 1. uv reads pyproject.toml to know which Python version to install
+  // 2. Creates .venv with that Python
+  // 3. Installs dependencies from pyproject.toml
+  "postCreateCommand": "uv python install && uv venv .venv && uv sync --python .venv/bin/python"
+}

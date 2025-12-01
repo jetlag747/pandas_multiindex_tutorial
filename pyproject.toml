@@ -1,0 +1,20 @@
+[project]
+name = "my-quant-env"
+version = "0.1.0"
+
+# 👇 Hard-code the Python version you want:
+requires-python = "==3.13.*"
+
+dependencies = [
+  "pandas",
+  "yfinance",
+  "matplotlib",
+  # add more here if you like:
+  # "numpy",
+  # "scipy",
+  # "jupyter",
+]
+
+[tool.uv]
+# Optional, but nice: tell uv to always use the local .venv
+default-groups = ["default"]
