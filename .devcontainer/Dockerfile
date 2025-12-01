@@ -1,6 +1,6 @@
 FROM debian:12-slim
 
-# Basic tools + build deps so uv can install Python and compile wheels if needed
+# 1) Install base tools and build deps as root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
@@ -11,15 +11,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Create 'vscode' user similar to official devcontainers
+# 2) Create 'vscode' user similar to official devcontainers
 RUN useradd -m vscode && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Install uv via official installer (no system Python required)
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Make uv visible for all users
-ENV PATH="/root/.cargo/bin:${PATH}"
-
-# Switch to non-root user and set a generic workspace root
+# 3) Switch to vscode and install uv for that user
 USER vscode
 WORKDIR /workspaces
+
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 4) Put uv (installed under /home/vscode/.cargo/bin) into PATH
+ENV PATH="/home/vscode/.cargo/bin:${PATH}"
