@@ -1,16 +1,12 @@
 [project]
-name = "my-quant-env"
+name = "mon-projet"
 version = "0.1.0"
-
-# 👇 Hard-code the Python version you want:
-requires-python = "==3.10.*"
-
+description = "Mon projet Data Science"
+requires-python = ">=3.12"
 dependencies = [
-  "pandas",
-  "yfinance",
-  "matplotlib"
-  # add more here if you like, e.g.:
-  # "numpy",
-  # "scipy",
-  # "jupyter",
+    "pandas",
+    "numpy"
 ]
+
+[tool.uv]
+# Ceci indique à uv de gérer les dépendances

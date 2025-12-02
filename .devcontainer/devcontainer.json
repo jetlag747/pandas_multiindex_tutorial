@@ -1,27 +1,26 @@
 {
-  "name": "Python + uv (Debian Slim, pinned Python)",
-
+  "name": "Python UV Auto",
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."
   },
-
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
-  "remoteUser": "vscode",
-
   "customizations": {
     "vscode": {
-      "settings": {
-        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
-      },
       "extensions": [
         "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-toolsai.jupyter"
-      ]
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        // On force VS Code à utiliser le venv créé dans le Dockerfile
+        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python",
+        "python.terminal.activateEnvironment": true
+      }
     }
   },
+  
+  // Ici, on fait juste la sync des librairies (pandas, etc.)
+  // On ajoute "|| true" pour ne pas bloquer si pyproject.toml n'existe pas encore
+  "postCreateCommand": "uv sync || true",
 
-  "postCreateCommand": "uv python install && uv venv .venv && uv sync --python .venv/bin/python"
+  "remoteUser": "vscode"
 }
