@@ -1,26 +1,36 @@
 {
-  "name": "Python UV Auto",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance"
-      ],
-      "settings": {
-        // On force VS Code à utiliser le venv créé dans le Dockerfile
-        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python",
-        "python.terminal.activateEnvironment": true
-      }
-    }
-  },
-  
-  // Ici, on fait juste la sync des librairies (pandas, etc.)
-  // On ajoute "|| true" pour ne pas bloquer si pyproject.toml n'existe pas encore
-  "postCreateCommand": "uv sync || true",
-
-  "remoteUser": "vscode"
+    // Nom affiché dans VS Code
+    "name": "Python/UV Debian Dev Container",
+    // Configuration de la construction de l'image
+    "build": {
+        // Chemin vers le Dockerfile (un niveau au-dessus du dossier .devcontainer)
+        "dockerfile": "../Dockerfile"
+    },
+    // Définit le chemin du dossier de travail à l'intérieur du conteneur
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    // Configuration spécifique à VS Code (extensions, settings)
+    "customizations": {
+        "vscode": {
+            // Paramètres VS Code à appliquer DANS le conteneur
+            "settings": {
+                // Indique l'interpréteur Python à VS Code
+                "python.defaultInterpreterPath": "/app/.venv/bin/python",
+                // Aide Pylance à trouver les paquets installés
+                "python.analysis.extraPaths": [
+                    "/app/.venv/lib/python3.10/site-packages"
+                ],
+                "python.formatting.provider": "none",
+                "editor.formatOnSave": true
+            },
+            // Extensions VS Code à installer automatiquement DANS le conteneur
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-vscode.live-share",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    },
+    // Garder le conteneur en vie après la déconnexion
+    "shutdownAction": "none"
 }

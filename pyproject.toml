@@ -1,12 +1,16 @@
+# pyproject.toml
+
 [project]
-name = "mon-projet"
+name = "mon_projet_dev_uv"
 version = "0.1.0"
-description = "Mon projet Data Science"
-requires-python = ">=3.12"
+description = "Mon projet de développement dans Dev Container"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
 dependencies = [
     "pandas",
-    "numpy"
+    "numpy",
+    "ipython",
+    "yfinance",
+    "matplotlib"
 ]
-
-[tool.uv]
-# Ceci indique à uv de gérer les dépendances

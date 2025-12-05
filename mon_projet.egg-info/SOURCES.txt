@@ -1,0 +1,8 @@
+README.md
+mocker.py
+pyproject.toml
+mon_projet.egg-info/PKG-INFO
+mon_projet.egg-info/SOURCES.txt
+mon_projet.egg-info/dependency_links.txt
+mon_projet.egg-info/requires.txt
+mon_projet.egg-info/top_level.txt

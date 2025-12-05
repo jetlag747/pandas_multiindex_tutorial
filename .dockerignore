@@ -1,0 +1,10 @@
+# Exclure les dossiers de construction et de cache locaux
+.venv
+__pycache__
+*.pyc
+.git
+.vscode
+
+# Exclure les fichiers de données volumineux ou temporaires (si nécessaire)
+# *.csv
+# *.log
