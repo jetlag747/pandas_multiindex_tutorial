@@ -1,36 +1,27 @@
 {
-    // Nom affiché dans VS Code
-    "name": "Python/UV Debian Dev Container",
-    // Configuration de la construction de l'image
-    "build": {
-        // Chemin vers le Dockerfile (un niveau au-dessus du dossier .devcontainer)
-        "dockerfile": "../Dockerfile"
-    },
-    // Définit le chemin du dossier de travail à l'intérieur du conteneur
-    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-    // Configuration spécifique à VS Code (extensions, settings)
-    "customizations": {
-        "vscode": {
-            // Paramètres VS Code à appliquer DANS le conteneur
-            "settings": {
-                // Indique l'interpréteur Python à VS Code
-                "python.defaultInterpreterPath": "/app/.venv/bin/python",
-                // Aide Pylance à trouver les paquets installés
-                "python.analysis.extraPaths": [
-                    "/app/.venv/lib/python3.10/site-packages"
-                ],
-                "python.formatting.provider": "none",
-                "editor.formatOnSave": true
-            },
-            // Extensions VS Code à installer automatiquement DANS le conteneur
-            "extensions": [
-                "ms-python.python",
-                "ms-python.vscode-pylance",
-                "ms-vscode.live-share",
-                "ms-toolsai.jupyter"
-            ]
-        }
-    },
-    // Garder le conteneur en vie après la déconnexion
-    "shutdownAction": "none"
+  "name": "Python UV Environment",
+  "build": {
+    // On force le chemin explicite relatif au dossier .devcontainer
+    "dockerfile": "./Dockerfile",
+    // On s'assure que le contexte est bien le dossier .devcontainer
+    "context": "."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "python.analysis.extraPaths": ["${workspaceFolder}/src"]
+      }
+    }
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/project,type=bind",
+  "workspaceFolder": "/workspaces/project",
+  "postCreateCommand": "bash -c 'if [ ! -f pyproject.toml ]; then uv init --python 3.12; fi && uv sync'",
+  "remoteUser": "root"
 }
